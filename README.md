@@ -42,7 +42,7 @@ localhost:8081/countries/:id
 ### Get Countries (GET)
 Endpoint
 ```
-localhost:8081/countries?page=1
+localhost:8081/countries
 ```
 
 ## Tests
