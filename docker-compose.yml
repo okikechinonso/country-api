@@ -1,0 +1,33 @@
+version: "3.9"  # optional since v1.27.0
+
+services:
+  countries-api:
+    build:
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - CONTAINER_MODE=true
+    networks:
+      - api
+    volumes:
+      - .:/app
+      - $GOPATH/pkg/mod:/go/pkg/mod
+    depends_on:
+      - db
+  db:
+    image: "mongo:latest"
+    ports:
+        - "27017:27017"
+    volumes:
+        - database-data:/data/db
+    networks:
+      - api
+
+volumes:
+  database-data:
+    driver: local
+networks:
+  api:
+    driver: bridge
