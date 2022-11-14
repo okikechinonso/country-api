@@ -32,13 +32,12 @@ func (h *Handler) UpdateCountry() gin.HandlerFunc {
 
 		country.Name, country.Continent, country.ShortName, country.IsOperational = body.Name, body.Continent, body.ShortName, body.IsOperational
 
-		data, err := h.Db.Update(*country, country.ID)
-		log.Print(*country)
+		_, err = h.Db.Update(*country, country.ID)
 		if err != nil {
 			response.Failure(500, ctx, "Error occurred when processing your request")
 			return
 		}
 
-		response.Success(200, data, ctx, fmt.Sprintf("update %v successful", country.ID))
+		response.Success(200, *country, ctx, fmt.Sprintf("update %v successful", country.ID))
 	}
 }

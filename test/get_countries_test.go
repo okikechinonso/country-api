@@ -1,11 +1,17 @@
 package test
 
 import (
+	entity "countries-api/entity"
 	"countries-api/http/gin/handler"
 	"countries-api/http/gin/server"
+	"encoding/json"
+	"net/http"
+	"net/http/httptest"
 	"testing"
+	"time"
 
 	gomock "github.com/golang/mock/gomock"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGetCountries(t *testing.T) {
@@ -15,15 +21,41 @@ func TestGetCountries(t *testing.T) {
 	m := NewMockDbInterface(ctrl)
 	handler := handler.Handler{Db: m}
 	s := server.Server{Handler: &handler}
-	s.SetupRouter()
 
-	// Does not make any assertions. Executes the anonymous functions and returns
-	// its result when Bar is invoked with 99.
-	m.
-		EXPECT().
-		FindMany(gomock.Any()).
-		Return(gomock.Any())
+	router := s.SetupRouter()
 
-	// Does not make any assertions. Returns 103 when Bar is invoked with 101.
+	data := &[]entity.Country{
+		{
+			ID:            "1",
+			Name:          "nigeria",
+			ShortName:     "NGN",
+			Continent:     "Africa",
+			IsOperational: true,
+			CreatedAt:     time.Now(),
+			UpdatedAt:     time.Now(),
+		},
+		{
+			ID:            "1",
+			Name:          "Algeria",
+			ShortName:     "DZ",
+			Continent:     "Africa",
+			IsOperational: true,
+			CreatedAt:     time.Now(),
+			UpdatedAt:     time.Now(),
+		},
+	}
 
+	m.EXPECT().FindMany().Return(*data, nil)
+	jsonFile, err := json.Marshal(data)
+	if err != nil {
+		t.Error("Failed to marshal file")
+	}
+
+	rw := httptest.NewRecorder()
+	req, _ := http.NewRequest(http.MethodGet, "/countries", nil)
+
+	router.ServeHTTP(rw, req)
+
+	assert.Equal(t, http.StatusOK, rw.Code)
+	assert.Contains(t, rw.Body.String(), string(jsonFile))
 }

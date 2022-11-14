@@ -2,21 +2,15 @@ package handler
 
 import (
 	"countries-api/http/gin/response"
-	"github.com/gin-gonic/gin"
 	"log"
-	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 func (h *Handler) GetCountries() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		page, err := strconv.Atoi(ctx.Query("page"))
-		log.Println(page)
-		if err != nil {
-			response.Failure(400, ctx, "enter a valid number")
-			return
-		}
 
-		countries, err := h.Db.FindMany(page)
+		countries, err := h.Db.FindMany()
 		if err != nil {
 			log.Println(err)
 			response.Failure(400, ctx, "enter a valid number")

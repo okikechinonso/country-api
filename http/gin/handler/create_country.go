@@ -15,13 +15,13 @@ func (h *Handler) CreateCountry() gin.HandlerFunc {
 		err := ctx.BindJSON(country)
 		country.Name = strings.ToLower(country.Name)
 		if err != nil {
-			response.Failure(500, ctx, "unable to decode data")
+			response.Failure(500, ctx, "provide all required fields to decode data")
 			return
 		}
 
 		_, err = h.Db.Create(*country)
 		if err != nil {
-			response.Failure(500, ctx, "unable to create")
+			response.Failure(500, ctx, "user already exist")
 			return
 		}
 

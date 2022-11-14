@@ -79,16 +79,12 @@ func (mdb *Database) Find(id string) (*entity.Country, error) {
 	return &res, nil
 }
 
-func (mdb *Database) FindMany(page int) ([]entity.Country, error) {
+func (mdb *Database) FindMany() ([]entity.Country, error) {
 
-	l := limit
-	skip := int64(page*int(limit) - int(limit))
-	option := options.FindOptions{Limit: &l, Skip: &skip}
 	coll := mdb.Db.Database("country-list").Collection("countries")
 
-	cursor, err := coll.Find(context.TODO(), bson.D{}, &option)
+	cursor, err := coll.Find(context.TODO(), bson.D{})
 	if err != nil {
-		log.Println("here")
 		return nil, err
 	}
 

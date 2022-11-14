@@ -9,6 +9,7 @@ services:
       - "8081:8081"
     environment:
       - CONTAINER_MODE=true
+      - PORT=8081
     networks:
       - api
     volumes:

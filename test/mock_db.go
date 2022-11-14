@@ -65,18 +65,18 @@ func (mr *MockDbInterfaceMockRecorder) Find(name interface{}) *gomock.Call {
 }
 
 // FindMany mocks base method.
-func (m *MockDbInterface) FindMany(page int) ([]entity.Country, error) {
+func (m *MockDbInterface) FindMany() ([]entity.Country, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindMany", page)
+	ret := m.ctrl.Call(m, "FindMany")
 	ret0, _ := ret[0].([]entity.Country)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FindMany indicates an expected call of FindMany.
-func (mr *MockDbInterfaceMockRecorder) FindMany(page interface{}) *gomock.Call {
+func (mr *MockDbInterfaceMockRecorder) FindMany() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindMany", reflect.TypeOf((*MockDbInterface)(nil).FindMany), page)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindMany", reflect.TypeOf((*MockDbInterface)(nil).FindMany))
 }
 
 // Update mocks base method.

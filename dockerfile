@@ -4,6 +4,10 @@ WORKDIR /app
 
 COPY ./ /app
 
-RUN go mod tidy
+RUN go mod download
 
-ENTRYPOINT [ "go", "run", "main.go" ]
+RUN go build -o /countries-api
+
+EXPOSE 8080
+
+CMD [ "countries-api"]
